@@ -98,7 +98,44 @@ ball = {
 };
 
 //Start Button OBJECT
+startBtn = {
+  w: 100, 
+  h: 50, 
+  x: W/2 - 50,
+  y: H/2 - 25, 
 
+  draw: function(){
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = "2";
+    ctx.strokeRect(this.x, this.y, this.w, this.h);
+    ctx.font = "18px Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "white";
+    ctx.fillText("Start", W/2, H/2);
+  }
+};
+
+//Restart Button OBJECT
+restartBtn = {
+  w: 100, 
+  h: 50, 
+  x: W/2 - 50, 
+  y: H/2 - 50,
+
+  draw: function(){
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = "2";
+    ctx.strokeRect(this.x, this.y, this.w, this.h);
+    ctx.font = "18px Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "white";
+    ctx.fillText = ("Restart", W/2, H/2 - 25);
+  }
+};
+
+//function createParticles(x,y,m){}
 
 function draw(){
   paintCanvas();
@@ -111,11 +148,53 @@ function draw(){
   update();
 }
 
+//function increaseSpd(){}
 
-// Show the start screen
+function update(){
+  updateScore();//update scores
+  if(mouse.x && mouse.y){ //move the paddles on mouse move
+    for(var i =1;i<paddles.length;i++){
+      p = paddles[i];
+      p.x = mouse.x - p.w/2;
+    }
+  }
+  ball.x += ball.vx; 
+  ball.y += ball.vy; //move ball
+
+  p1 = paddles[1];
+  p2 = paddles[2]; //collision with paddles
+
+  //TODO !!!!!!!!
+}
+
+//function collides(b,p){}
+
+//function collideAction(ball, p){}
+
+//function emitParticles(){}
+
+function updateScore(){
+  ctx.fillStyle = "white";
+  ctx.font = "16px Arial, sans-serif";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText("Score: " + points, 20, 20);
+}
+
+//function gameOver(){}
+
+function animloop(){
+  init = requestAnimFrame(animloop);
+  draw();
+}
+
 function startScreen(){
   draw();
   startBtn.draw();
 }
+
+//function btnClick(e){}
+
+
 
 startScreen();
