@@ -86,7 +86,7 @@ ball = {
   r: 5, 
   c: "white", 
   vx: 4, 
-  vy: 8, 
+  vy: 5, 
 
   //Function for drawing ball on canvas
   draw: function(){
@@ -136,6 +136,7 @@ restartBtn = {
 };
 
 //function createParticles(x,y,m){}
+//TODO
 
 function draw(){
   paintCanvas();
@@ -149,6 +150,7 @@ function draw(){
 }
 
 //function increaseSpd(){}
+//TODO
 
 function update(){
   updateScore();//update scores
@@ -164,12 +166,38 @@ function update(){
   p1 = paddles[1];
   p2 = paddles[2]; //collision with paddles
 
-  //TODO !!!!!!!!
+  if(collides(ball,p1)){
+    collideAction(ball,p1);
+  }
+  else if(collides(ball,p2)){
+    collideAction(ball,p2); 
+  }
+  //TODO
 }
 
-//function collides(b,p){}
+function collides(b,p){
+  if(b.x + ball.r >= p.x && b.x - ball.r <= p.x + p.w){
+    if(b.y >= (p.y - p.h) && p.y > 0){
+      paddleHit = 1;
+      return true;
+    }else if(b.y <= p.h && p.y == 0){
+      paddleHit = 2;
+      return true; 
+    }
+    else return false;
+  }
+}
 
-//function collideAction(ball, p){}
+function collideAction(ball, p){
+  console.log('collideAction()');
+  ball.vy = -ball.vy;
+  if(paddleHit == 1){
+  //TODO  
+  }else if(paddleHit == 2){
+ //TODO 
+  }
+//TODO
+}
 
 //function emitParticles(){}
 
@@ -181,7 +209,17 @@ function updateScore(){
   ctx.fillText("Score: " + points, 20, 20);
 }
 
-//function gameOver(){}
+function gameOver(){
+  ctx.fillStyle = "white";
+  ctx.font = "20px Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("Game over - You scored " + points + " points!", W/2, H/2 + 25);
+
+  cancelRequestAnimFrame(init);//Stop the animation
+  over = 1; //set the over flag
+  restartBtn.draw(); //show the restart button
+}
 
 function animloop(){
   init = requestAnimFrame(animloop);
@@ -193,8 +231,25 @@ function startScreen(){
   startBtn.draw();
 }
 
-//function btnClick(e){}
+function btnClick(e){
+  var mx = e.pageX, 
+      my = e.pageY;//Storing mouse position click
 
-
+  if( mx >= startBtn.x && mx <= startBtn.x + startBtn.w){
+    animloop();
+    //startBtn = {}; //deletes the start button after clicking it (no needed for now)
+  }
+  if(over == 1){
+    if(mx >= restartBtn.x && mx <= restartBtn.x + restartBtn.w){
+      ball.x = 20;
+      ball.y = 20;
+      points = 0;
+      ball.vx = 4;
+      ball.vy = 8;
+      animloop();
+      over = 0;
+    }
+  }
+}
 
 startScreen();
