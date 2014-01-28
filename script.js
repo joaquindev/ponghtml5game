@@ -207,7 +207,6 @@ function collides(b,p){
 }
 
 function collideAction(ball, p){
-  console.log('collideAction()');
   ball.vy = -ball.vy;//we invert velocity to change direction
   if(paddleHit == 1){
     ball.y = p.y - p.h; 
