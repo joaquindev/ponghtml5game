@@ -131,7 +131,7 @@ restartBtn = {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "white";
-    ctx.fillText = ("Restart", W/2, H/2 - 25);
+    ctx.fillText("Restart", W/2, H/2 - 25);
   }
 };
 
@@ -172,7 +172,25 @@ function update(){
   else if(collides(ball,p2)){
     collideAction(ball,p2); 
   }
-  //TODO
+  else { //ball collides with walls and if the wall is top or bottom run Gameover()
+    if(ball.y + ball.r > H){//goal in bottom
+      ball.y = H - ball.r;
+      gameOver();
+    }else if(ball.y < 0){//goal in top
+      ball.y = ball.r;
+      gameOver();
+    }
+    //vertical walls
+    if(ball.x + ball.r > W){
+      ball.vx = -ball.vx;
+      ball.x = W - ball.r;
+    }else if(ball.x - ball.r < 0){
+      ball.vx = -ball.vx;
+      ball.x = ball.r;
+    }
+  }
+  //If flag is set, push the particles
+  //TODO 
 }
 
 function collides(b,p){
@@ -190,13 +208,28 @@ function collides(b,p){
 
 function collideAction(ball, p){
   console.log('collideAction()');
-  ball.vy = -ball.vy;
+  ball.vy = -ball.vy;//we invert velocity to change direction
   if(paddleHit == 1){
-  //TODO  
+    ball.y = p.y - p.h; 
+    //particlePos.y = ball.y + ball.r;
+    //multiplier = -1;
   }else if(paddleHit == 2){
- //TODO 
+    ball.y = p.h + ball.r; 
+    //particlePos.y = ball.y - ball.r;
+    //multiplier = 1;
   }
-//TODO
+  points++;
+  //increaseSpd();
+
+  if(collision){
+    if(points > 0){
+      collision.pause();      
+    }
+    collision.currentTime = 0;
+    collision.play();
+  }
+  //particlePos.x = ball.x;
+  //flag = 1;
 }
 
 //function emitParticles(){}
