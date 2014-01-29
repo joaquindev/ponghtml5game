@@ -55,7 +55,7 @@ function btnClick(e){
 }
 
 //Initialise the collision sound
-//collision = document.getElementById("collide");
+collision = document.getElementById("collide");
 
 //Set the canva's height and width to full screen
 canvas.width = W;
@@ -225,7 +225,7 @@ function collideAction(ball, p){
       collision.pause();      
     }
     collision.currentTime = 0;
-    collision.play();
+    collision.play();//Play the sound for the collision
   }
   //particlePos.x = ball.x;
   //flag = 1;
