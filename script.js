@@ -138,6 +138,10 @@ restartBtn = {
 //function createParticles(x,y,m){}
 //TODO
 
+//function emitParticles(){}
+//TODO
+
+
 function draw(){
   paintCanvas();
   for(var i = 0; i<paddles.length;i++){
@@ -149,8 +153,15 @@ function draw(){
   update();
 }
 
-//function increaseSpd(){}
-//TODO
+function increaseSpd(){
+  if(points % 4 == 0){
+    if(Math.abs(ball.vx) < 15){
+      ball.vx += (ball.vx < 0) ? -1 : 1;
+      ball.vy += (ball.vy < 0) ? -2 : 2;
+    } 
+  }
+}
+
 
 function update(){
   updateScore();//update scores
@@ -218,7 +229,7 @@ function collideAction(ball, p){
     //multiplier = 1;
   }
   points++;
-  //increaseSpd();
+  increaseSpd();
 
   if(collision){
     if(points > 0){
@@ -231,7 +242,6 @@ function collideAction(ball, p){
   //flag = 1;
 }
 
-//function emitParticles(){}
 
 function updateScore(){
   ctx.fillStyle = "white";
@@ -284,4 +294,4 @@ function btnClick(e){
   }
 }
 
-startScreen();
+startScreen(); //Starting point
