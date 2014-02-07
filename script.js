@@ -51,7 +51,25 @@ function trackPosition(e){
 }
 
 function btnClick(e){
- //TODO 
+  var mx = e.pageX, 
+      my = e.pageY;
+
+  if(mx >= startBtn.x && mx <= startBtn.x + startBtn.w){
+    animloop();
+    startBtn = {};
+  }
+
+  if(over == 1){
+    if(mx >= restartBtn.x && mx <= restartBtn.x + restartBtn.w){
+      ball.x = 20;
+      ball.y = 20;
+      points = 0;
+      ball.vx = 4;
+      ball.vy = 8;
+      animloop();
+      over = 0;
+    }
+  }
 }
 
 //Initialise the collision sound
@@ -135,11 +153,28 @@ restartBtn = {
   }
 };
 
-//function createParticles(x,y,m){}
-//TODO
+function createParticles(x,y,m){
+  this.x = x || 0;
+  this.y = y || 0;
+  this.radius = 1.2;
+  this.vx = -1.5 + Math.random()*3;
+  this.vy = m * Math.random()*1.5;
+}
 
-//function emitParticles(){}
-//TODO
+function emitParticles(){
+  for(var j = 0; j < particles.length; j++){
+    par = particles[j]; 
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    if(par.radius > 0){
+      ctx.arc(par.x, par.y, par.radius, 0, Math.PI*2, false);
+    }
+    ctx.fill();
+    par.x += par.vx;
+    par.y += par.vy;
+    par.radius = Math.max(par.radius - 0.05, 0.0);
+  }
+}
 
 
 function draw(){
@@ -201,7 +236,13 @@ function update(){
     }
   }
   //If flag is set, push the particles
-  //TODO 
+  if(flag == 1){
+    for(var k = 0; k < particlesCount; k++){
+      particles.push(new createParticles(particlePos.x, particlePos.y, multiplier)); 
+    }
+  }
+  emitParticles();
+  flag = 0;
 }
 
 function collides(b,p){
@@ -221,12 +262,12 @@ function collideAction(ball, p){
   ball.vy = -ball.vy;//we invert velocity to change direction
   if(paddleHit == 1){
     ball.y = p.y - p.h; 
-    //particlePos.y = ball.y + ball.r;
-    //multiplier = -1;
+    particlePos.y = ball.y + ball.r;
+    multiplier = -1;
   }else if(paddleHit == 2){
     ball.y = p.h + ball.r; 
-    //particlePos.y = ball.y - ball.r;
-    //multiplier = 1;
+    particlePos.y = ball.y - ball.r;
+    multiplier = 1;
   }
   points++;
   increaseSpd();
@@ -238,8 +279,8 @@ function collideAction(ball, p){
     collision.currentTime = 0;
     collision.play();//Play the sound for the collision
   }
-  //particlePos.x = ball.x;
-  //flag = 1;
+  particlePos.x = ball.x;
+  flag = 1;
 }
 
 
