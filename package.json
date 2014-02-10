@@ -1,0 +1,25 @@
+{
+  "name": "ponghtml5game",
+  "version": "0.0.1",
+  "description": "Pong (Ping Pong style) html5 videogame for a tutorial I'm following",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaquindev/ponghtml5game.git"
+  },
+  "keywords": [
+    "videogame",
+    "html5"
+  ],
+  "author": "joaquindev",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/joaquindev/ponghtml5game/issues"
+  },
+  "dependencies": {
+    "connect": "~2.12.0"
+  }
+}
